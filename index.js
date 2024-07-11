@@ -35,6 +35,8 @@ async function run() {
         const chefsCollection = client.db("modernTable").collection("chefs");
         const mealsCollection = client.db("modernTable").collection("meals");
         const newsCollection = client.db("modernTable").collection("news");
+        const introsCollection = client.db("modernTable").collection("intros");
+        const usersCollection = client.db("modernTable").collection("users");
         
         
 
@@ -72,6 +74,15 @@ async function run() {
         })
         app.get("/news", async(req, res)=>{
             const result = await newsCollection.find().toArray()
+            res.send(result) 
+        })
+        app.get("/intros", async(req, res)=>{
+            const result = await introsCollection.find().toArray()
+            res.send(result) 
+        })
+        app.post("/users", async(req, res)=>{
+            const cursor = req.body
+            const result = await usersCollection.insertOne(cursor)
             res.send(result) 
         })
 
