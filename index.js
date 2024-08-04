@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000;
 //middleware
 
 app.use(cors({
-    origin: ['http://localhost:5174','http://localhost:5173'],
+    origin: ['http://localhost:5173', "https://modern-table-b0855.web.app"],
     credentials: true
 }))
 app.use(express.json())
@@ -96,7 +96,7 @@ async function run() {
             const result = await bookingsCollection.find().toArray()
             res.send(result) 
         })
-        
+
         app.post("/users", async(req, res)=>{
             const cursor = req.body
             const result = await usersCollection.insertOne(cursor)
