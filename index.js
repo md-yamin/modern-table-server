@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000;
 //middleware
 
 app.use(cors({
-    origin: ['https://dream-real-estate-efecd.web.app','http://localhost:5173'],
+    origin: ['http://localhost:5174','http://localhost:5173'],
     credentials: true
 }))
 app.use(express.json())
@@ -37,7 +37,7 @@ async function run() {
         const newsCollection = client.db("modernTable").collection("news");
         const introsCollection = client.db("modernTable").collection("intros");
         const usersCollection = client.db("modernTable").collection("users");
-        
+        const bookingsCollection = client.db("modernTable").collection("bookings");
         
 
 
@@ -68,6 +68,14 @@ async function run() {
             const result = await mealsCollection.find().toArray()
             res.send(result) 
         })
+
+        app.get("/item/:id", async(req, res)=>{
+            const id = req.params.id
+            const query = {_id : new ObjectId(id) }
+            const result = await mealsCollection.findOne(query)
+            res.send(result) 
+        })
+
         app.get("/chefs", async(req, res)=>{
             const result = await chefsCollection.find().toArray()
             res.send(result) 
@@ -80,9 +88,23 @@ async function run() {
             const result = await introsCollection.find().toArray()
             res.send(result) 
         })
+        app.get("/users", async(req, res)=>{
+            const result = await usersCollection.find().toArray()
+            res.send(result) 
+        })
+        app.get("/booking", async(req, res)=>{
+            const result = await bookingsCollection.find().toArray()
+            res.send(result) 
+        })
+        
         app.post("/users", async(req, res)=>{
             const cursor = req.body
             const result = await usersCollection.insertOne(cursor)
+            res.send(result) 
+        })
+        app.post("/booking", async(req, res)=>{
+            const cursor = req.body
+            const result = await bookingsCollection.insertOne(cursor)
             res.send(result) 
         })
 
